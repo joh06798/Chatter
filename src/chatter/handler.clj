@@ -6,14 +6,16 @@
 	    [hiccup.page :as page]
 	    [hiccup.form :as form]))
 
-(def chat-messages (atom'()))
+(def chat-messages (atom '()))
 
 (defn generate-message-view
   "This generates the HTML for displaying messages"
   [messages]
   (page/html5
    [:head
-    [:title "chatter"]]
+    [:title "chatter"]
+    (page/include-css "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css")
+    (page/include-js  "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js")]
    [:body
     [:h1 "Our Chat App"]
     [:p
