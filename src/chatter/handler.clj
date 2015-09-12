@@ -15,7 +15,8 @@
    [:head
     [:title "chatter"]
     (page/include-css "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css")
-    (page/include-js  "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js")]
+    (page/include-js  "//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js")
+    (page/include-css "/chatter.css")]
    [:body
     [:h1 "Our Chat App"]
     [:p
@@ -25,7 +26,7 @@
       "Message: " (form/text-field "msg")
       (form/submit-button "Submit"))]
     [:p 
-     [:table
+     [:table#messages.table.table-bordered
       (map (fn [m] [:tr [:td (:name m)] [:td (:message m)]]) messages)]]]))
 
 (defn update-messages!
@@ -35,12 +36,13 @@
 
 (defroutes app-routes
   (GET "/" [] (generate-message-view @chat-messages))
-  (POST "/" [] {params :params}
+  (POST "/" {params :params}
     (let [name-param (get params "name")
           msg-param (get params "msg")
           new-messages (update-messages! chat-messages name-param msg-param)]
       (generate-message-view new-messages)
       ))
+  (route/resources "/")
   (route/not-found "Not Found"))
 
 (def app (wrap-params app-routes))
